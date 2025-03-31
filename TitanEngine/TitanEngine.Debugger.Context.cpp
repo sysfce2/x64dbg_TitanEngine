@@ -1152,7 +1152,7 @@ static bool GetAVX512ContextFallbackToAVX(HANDLE hActiveThread, TITAN_ENGINE_CON
 {
 	// Fall back to using AVX and fill the rest with 0
 	TITAN_ENGINE_CONTEXT_t Avx;
-	memset(&Avx, 0, sizeof(Avx));
+	memset(titcontext, 0, sizeof(*titcontext));
 	if (GetAVXContext(hActiveThread, &Avx)) {
 		for (int i = 0; i < _countof(Avx.YmmRegisters); i++)
 			titcontext->ZmmRegisters[i].Low = Avx.YmmRegisters[i];
