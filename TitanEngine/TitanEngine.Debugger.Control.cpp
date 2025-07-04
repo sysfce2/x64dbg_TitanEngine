@@ -38,15 +38,15 @@ __declspec(dllexport) void TITCALL ForceClose()
 __declspec(dllexport) void TITCALL StepInto(LPVOID StepCallBack)
 {
     EnterCriticalSection(&engineStepActiveCr);
-    if (!engineStepActive)
+    if(!engineStepActive)
     {
         ULONG_PTR ueCurrentPosition = GetContextData(UE_CIP);
         unsigned char instr[16];
         MemoryReadSafe(dbgProcessInformation.hProcess, (void*)ueCurrentPosition, instr, sizeof(instr), 0);
         char* DisassembledString = (char*)StaticDisassembleEx(ueCurrentPosition, (LPVOID)instr);
-        if (strstr(DisassembledString, "PUSHF"))
+        if(strstr(DisassembledString, "PUSHF"))
             StepOver(StepCallBack);
-        else if (strstr(DisassembledString, "POP SS") || strstr(DisassembledString, "MOV SS")) //prevent the 'PUSH SS', 'POP SS' step trick
+        else if(strstr(DisassembledString, "POP SS") || strstr(DisassembledString, "MOV SS"))  //prevent the 'PUSH SS', 'POP SS' step trick
         {
             ueCurrentPosition += StaticLengthDisassemble((void*)instr);
             SetBPX(ueCurrentPosition, UE_BREAKPOINT_TYPE_INT3 + UE_SINGLESHOOT, StepCallBack);

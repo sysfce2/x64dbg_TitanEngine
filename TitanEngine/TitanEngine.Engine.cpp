@@ -51,7 +51,7 @@ __declspec(dllexport) void TITCALL SetEngineVariable(DWORD VariableId, bool Vari
     {
         engineDisableAslr = VariableSet;
     }
-    else if (VariableId == UE_ENGINE_SAFE_STEP)
+    else if(VariableId == UE_ENGINE_SAFE_STEP)
     {
         engineSafeStep = VariableSet;
     }

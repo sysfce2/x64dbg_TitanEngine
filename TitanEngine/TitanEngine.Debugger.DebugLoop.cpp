@@ -16,12 +16,12 @@
 static void engineStep()
 {
     EnterCriticalSection(&engineStepActiveCr);
-    if (engineStepActive)
+    if(engineStepActive)
     {
         DBGCode = DBG_CONTINUE;
-        if (engineStepCount == 0)
+        if(engineStepCount == 0)
         {
-            typedef void(TITCALL* fCustomBreakPoint)(void);
+            typedef void(TITCALL * fCustomBreakPoint)(void);
             auto cbStep = fCustomBreakPoint(engineStepCallBack);
             engineStepActive = false;
             engineStepCallBack = NULL;
@@ -537,7 +537,7 @@ __declspec(dllexport) void TITCALL DebugLoop()
                         CONTEXT myDBGContext;
                         myDBGContext.ContextFlags = ContextControlFlags;
                         GetThreadContext(hActiveThread, &myDBGContext);
-                        if (FoundBreakPoint.BreakPointType != UE_SINGLESHOOT)
+                        if(FoundBreakPoint.BreakPointType != UE_SINGLESHOOT)
                         {
                             myDBGContext.EFlags |= UE_TRAP_FLAG;
                             synchronizedStep = true;
@@ -1104,7 +1104,7 @@ __declspec(dllexport) void TITCALL DebugLoop()
                             CONTEXT myDBGContext;
                             myDBGContext.ContextFlags = ContextControlFlags;
                             GetThreadContext(hActiveThread, &myDBGContext);
-                            if (FoundBreakPoint.BreakPointType != UE_SINGLESHOOT)
+                            if(FoundBreakPoint.BreakPointType != UE_SINGLESHOOT)
                             {
                                 myDBGContext.EFlags |= UE_TRAP_FLAG;
                                 synchronizedStep = true;
@@ -1285,10 +1285,10 @@ __declspec(dllexport) void TITCALL DebugLoop()
                             continue;
 
                         // Check if the thread is already suspended
-                        if (SuspendedThreads.count(Thread.dwThreadId) != 0)
+                        if(SuspendedThreads.count(Thread.dwThreadId) != 0)
                             continue;
 
-                        if (SuspendThread(Thread.hThread) != -1)
+                        if(SuspendThread(Thread.hThread) != -1)
                             SuspendedThreads.emplace(Thread.dwThreadId, Thread);
                     }
                 }

@@ -462,7 +462,7 @@ __declspec(dllexport) bool TITCALL SetMemoryBPXEx(ULONG_PTR MemoryStart, SIZE_T 
         auto bpType = BreakPointBuffer.at(i).BreakPointType;
         bool isMem = bpType == UE_MEMORY || bpType == UE_MEMORY_READ || bpType == UE_MEMORY_WRITE || bpType == UE_MEMORY_EXECUTE;
 
-        if (isMem && bpAddr < (MemoryStart + SizeOfMemory) && bpAddr + bpSize > MemoryStart)
+        if(isMem && bpAddr < (MemoryStart + SizeOfMemory) && bpAddr + bpSize > MemoryStart)
         {
             return false; // the place is taken
         }

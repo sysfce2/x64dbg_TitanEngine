@@ -46,18 +46,18 @@ CRITICAL_SECTION engineStepActiveCr;
 DWORD ContextControlFlags = []
 {
     DWORD flags = CONTEXT_CONTROL;
-    typedef BOOL(WINAPI *type_IsWow64Process2)(HANDLE, USHORT*, USHORT*);
+    typedef BOOL(WINAPI * type_IsWow64Process2)(HANDLE, USHORT*, USHORT*);
     auto p_IsWow64Process2 = (type_IsWow64Process2)GetProcAddress(GetModuleHandleW(L"kernel32.dll"), "IsWow64Process2");
-    if (p_IsWow64Process2)
+    if(p_IsWow64Process2)
     {
         USHORT processMachine = 0;
         USHORT nativeMachine = 0;
-        if (p_IsWow64Process2(GetCurrentProcess(), &processMachine, &nativeMachine))
+        if(p_IsWow64Process2(GetCurrentProcess(), &processMachine, &nativeMachine))
         {
 #ifndef IMAGE_FILE_MACHINE_ARM64
 #define IMAGE_FILE_MACHINE_ARM64 0xAA64
 #endif // IMAGE_FILE_MACHINE_ARM64
-            if (nativeMachine == IMAGE_FILE_MACHINE_ARM || nativeMachine == IMAGE_FILE_MACHINE_ARM64)
+            if(nativeMachine == IMAGE_FILE_MACHINE_ARM || nativeMachine == IMAGE_FILE_MACHINE_ARM64)
             {
                 flags = CONTEXT_ALL;
             }
