@@ -951,15 +951,16 @@ __declspec(dllexport) bool TITCALL SetAVXContext(HANDLE hActiveThread, TITAN_ENG
     if(Success == FALSE)
         return false;
 
-    if (_SetXStateFeaturesMask(Context, XSTATE_MASK_AVX) == FALSE) {
-		if (_SetXStateFeaturesMask(Context, XSTATE_MASK_LEGACY_SSE) == FALSE)
-			return false;
-	}
+    if(_SetXStateFeaturesMask(Context, XSTATE_MASK_AVX) == FALSE)
+    {
+        if(_SetXStateFeaturesMask(Context, XSTATE_MASK_LEGACY_SSE) == FALSE)
+            return false;
+    }
 
     if(GetThreadContext(hActiveThread, Context) == FALSE)
         return false;
 
-	DWORD64 FeatureMask;
+    DWORD64 FeatureMask;
     if(_GetXStateFeaturesMask(Context, &FeatureMask) == FALSE)
         return false;
 
@@ -1010,15 +1011,16 @@ __declspec(dllexport) bool TITCALL GetAVXContext(HANDLE hActiveThread, TITAN_ENG
     if(Success == FALSE)
         return false;
 
-    if (_SetXStateFeaturesMask(Context, XSTATE_MASK_AVX) == FALSE) {
-		if (_SetXStateFeaturesMask(Context, XSTATE_MASK_LEGACY_SSE) == FALSE)
-			return false;
-	}
+    if(_SetXStateFeaturesMask(Context, XSTATE_MASK_AVX) == FALSE)
+    {
+        if(_SetXStateFeaturesMask(Context, XSTATE_MASK_LEGACY_SSE) == FALSE)
+            return false;
+    }
 
     if(GetThreadContext(hActiveThread, Context) == FALSE)
         return false;
 
-	DWORD64 FeatureMask;
+    DWORD64 FeatureMask;
     if(_GetXStateFeaturesMask(Context, &FeatureMask) == FALSE)
         return false;
 
