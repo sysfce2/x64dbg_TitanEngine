@@ -589,11 +589,36 @@ __declspec(dllexport) void TITCALL DebugLoop()
                 {
                     if(DebugAttachedToProcess || !FirstBPX) //program generated a breakpoint exception
                     {
-                        DBGCode = DBG_EXCEPTION_NOT_HANDLED;
-                        if(DBGCustomHandler->chBreakPoint != NULL)
+                        ULONG_PTR exceptionAddress = (ULONG_PTR)DBGEvent.u.Exception.ExceptionRecord.ExceptionAddress;
+                        unsigned char currentByte = 0xCC;
+                        MemoryReadSafe(dbgProcessInformation.hProcess, (void*)exceptionAddress, &currentByte, 1, nullptr);
+
+                        if(currentByte != 0xCC)
                         {
-                            myCustomHandler = (fCustomHandler)((LPVOID)DBGCustomHandler->chBreakPoint);
-                            myCustomHandler(&DBGEvent.u.Exception.ExceptionRecord);
+                            //breakpoint was deleted - the byte is no longer 0xCC
+                            //reset IP to exception address and continue gracefully
+                            DBGCode = DBG_CONTINUE;
+                            hActiveThread = EngineOpenThread(THREAD_GETSETSUSPEND, false, DBGEvent.dwThreadId);
+                            CONTEXT myDBGContext;
+                            myDBGContext.ContextFlags = ContextControlFlags;
+                            GetThreadContext(hActiveThread, &myDBGContext);
+#if defined(_WIN64)
+                            myDBGContext.Rip = exceptionAddress;
+#else
+                            myDBGContext.Eip = (DWORD)exceptionAddress;
+#endif
+                            SetThreadContext(hActiveThread, &myDBGContext);
+                            EngineCloseHandle(hActiveThread);
+                        }
+                        else
+                        {
+                            //byte is still 0xCC - this is a real int3 in the original code!!
+                            DBGCode = DBG_EXCEPTION_NOT_HANDLED;
+                            if(DBGCustomHandler->chBreakPoint != NULL)
+                            {
+                                myCustomHandler = (fCustomHandler)((LPVOID)DBGCustomHandler->chBreakPoint);
+                                myCustomHandler(&DBGEvent.u.Exception.ExceptionRecord);
+                            }
                         }
                     }
                     else //system breakpoint
