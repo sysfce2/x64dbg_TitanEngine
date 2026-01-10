@@ -101,6 +101,8 @@ __declspec(dllexport) void TITCALL DebugLoop()
     memset(&DLLDebugFileName, 0, sizeof(DLLDebugFileName));
     engineFileIsBeingDebugged = true;
 
+    uint32_t consecutiveTimeouts = 0;
+
     while(!BreakDBG) //actual debug loop
     {
         bool synchronizedStep = false;
@@ -124,9 +126,16 @@ __declspec(dllexport) void TITCALL DebugLoop()
             else
             {
                 // Regular timeout, wait again
+                // After 2 consecutive timeouts, clear recently deleted breakpoints
+                consecutiveTimeouts++;
+                if(consecutiveTimeouts >= 2)
+                    recentlyDeletedBpx.clear();
                 continue;
             }
         }
+
+        // Event received, reset timeout counter
+        consecutiveTimeouts = 0;
 
         if(IsDbgReplyLaterSupported)
         {
@@ -590,29 +599,29 @@ __declspec(dllexport) void TITCALL DebugLoop()
                     if(DebugAttachedToProcess || !FirstBPX) //program generated a breakpoint exception
                     {
                         ULONG_PTR exceptionAddress = (ULONG_PTR)DBGEvent.u.Exception.ExceptionRecord.ExceptionAddress;
-                        unsigned char currentByte = 0xCC;
-                        MemoryReadSafe(dbgProcessInformation.hProcess, (void*)exceptionAddress, &currentByte, 1, nullptr);
 
-                        if(currentByte != 0xCC)
+                        if(recentlyDeletedBpx.find(exceptionAddress) != recentlyDeletedBpx.end())
                         {
-                            //breakpoint was deleted - the byte is no longer 0xCC
-                            //reset IP to exception address and continue gracefully
-                            DBGCode = DBG_CONTINUE;
+                            //breakpoint was recently deleted - handle the stale event gracefully
                             hActiveThread = EngineOpenThread(THREAD_GETSETSUSPEND, false, DBGEvent.dwThreadId);
-                            CONTEXT myDBGContext;
-                            myDBGContext.ContextFlags = ContextControlFlags;
-                            GetThreadContext(hActiveThread, &myDBGContext);
+                            if(hActiveThread != NULL)
+                            {
+                                CONTEXT myDBGContext;
+                                myDBGContext.ContextFlags = ContextControlFlags;
+                                GetThreadContext(hActiveThread, &myDBGContext);
 #if defined(_WIN64)
-                            myDBGContext.Rip = exceptionAddress;
+                                myDBGContext.Rip = exceptionAddress;
 #else
-                            myDBGContext.Eip = (DWORD)exceptionAddress;
+                                myDBGContext.Eip = (DWORD)exceptionAddress;
 #endif
-                            SetThreadContext(hActiveThread, &myDBGContext);
-                            EngineCloseHandle(hActiveThread);
+                                SetThreadContext(hActiveThread, &myDBGContext);
+                                EngineCloseHandle(hActiveThread);
+                                DBGCode = DBG_CONTINUE;
+                            }
                         }
                         else
                         {
-                            //byte is still 0xCC - this is a real int3 in the original code!!
+                            //not a recently deleted breakpoint - pass to debuggee
                             DBGCode = DBG_EXCEPTION_NOT_HANDLED;
                             if(DBGCustomHandler->chBreakPoint != NULL)
                             {
