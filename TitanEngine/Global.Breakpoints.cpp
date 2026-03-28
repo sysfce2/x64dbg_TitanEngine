@@ -251,13 +251,17 @@ DWORD GetPageProtectionForMemoryBreakpoint(const MemoryBreakpointPageDetail & pa
 
     if(page.writeBps > 0)
     {
-        // Remove write access e.g. PAGE_EXECUTE_READWRITE => PAGE_EXECUTE
+        // Remove write access (and copy-on-write) e.g. PAGE_EXECUTE_READWRITE => PAGE_EXECUTE
         DWORD dwBase = newProtect & 0xFF;
         switch(dwBase)
         {
         case PAGE_READWRITE:
+        case PAGE_WRITECOPY:
+            newProtect = (newProtect & 0xFFFFFF00) | PAGE_READONLY;
+            break;
         case PAGE_EXECUTE_READWRITE:
-            newProtect = (newProtect & 0xFFFFFF00) | (dwBase >> 1);
+        case PAGE_EXECUTE_WRITECOPY:
+            newProtect = (newProtect & 0xFFFFFF00) | PAGE_EXECUTE_READ;
             break;
         }
     }
