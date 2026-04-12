@@ -296,9 +296,6 @@
     <ClInclude Include="aplib.h">
       <Filter>Header Files\ThirdParty</Filter>
     </ClInclude>
-    <ClInclude Include="distorm.h">
-      <Filter>Header Files\ThirdParty</Filter>
-    </ClInclude>
     <ClInclude Include="LzmaDec.h">
       <Filter>Header Files\ThirdParty</Filter>
     </ClInclude>

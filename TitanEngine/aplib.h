@@ -42,7 +42,7 @@ inline unsigned int APLIB_CONVENTION aP_depack_asm_safe(const void* source,
         void* destination,
         unsigned int dstlen)
 {
-    return 0;
+    return APLIB_ERROR;
 }
 
 unsigned int APLIB_CONVENTION aP_crc32(const void* source, unsigned int length);
@@ -63,7 +63,7 @@ inline unsigned int APLIB_CONVENTION aPsafe_depack(const void* source,
         void* destination,
         unsigned int dstlen)
 {
-    return 0;
+    return APLIB_ERROR;
 }
 
 #ifdef __cplusplus

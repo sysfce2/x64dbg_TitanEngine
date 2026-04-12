@@ -482,10 +482,10 @@ __declspec(dllexport) void* TITCALL InitNativeDebugW(wchar_t* szFileName, wchar_
     RtlZeroMemory(&CreateInfo, sizeof(CreateInfo));
     CreateInfo.Size = sizeof(CreateInfo);
     CreateInfo.State = PsCreateInitialState;
-    CreateInfo.InitState.u1.s1.WriteOutputOnExit = TRUE;
-    CreateInfo.InitState.u1.s1.DetectManifest = TRUE;
-    CreateInfo.InitState.u1.s1.ProhibitedImageCharacteristics = 0; // Normally: IMAGE_FILE_DLL (disallow executing DLLs)
-    CreateInfo.InitState.AdditionalFileAccess = FILE_READ_ATTRIBUTES | FILE_READ_DATA;
+    CreateInfo.u1.InitState.u2.s1.WriteOutputOnExit = TRUE;
+    CreateInfo.u1.InitState.u2.s1.DetectManifest = TRUE;
+    CreateInfo.u1.InitState.u2.s1.ProhibitedImageCharacteristics = 0; // Normally: IMAGE_FILE_DLL (disallow executing DLLs)
+    CreateInfo.u1.InitState.AdditionalFileAccess = FILE_READ_ATTRIBUTES | FILE_READ_DATA;
 
     // Initialize the PS_ATTRIBUTE_LIST that contains the process creation attributes
     const SIZE_T NumAttributes = 3;
@@ -554,8 +554,8 @@ finished:
     if(ProcessHandle != NULL)
     {
         // Close the file and section handles we got back from the kernel
-        NtClose(CreateInfo.SuccessState.FileHandle);
-        NtClose(CreateInfo.SuccessState.SectionHandle);
+        NtClose(CreateInfo.u1.SuccessState.FileHandle);
+        NtClose(CreateInfo.u1.SuccessState.SectionHandle);
 
         // If we failed, terminate the process
         if(!NT_SUCCESS(Status))
