@@ -217,7 +217,7 @@ void ProcessLister::handleProcessInformationAndAddToList(PSYSTEM_PROCESS_INFORMA
     Process process;
     WCHAR tempProcessName[MAX_PATH * 2] = {0};
 
-    process.PID = (DWORD)pProcess->UniqueProcessId;
+    process.PID = (DWORD)(DWORD_PTR)pProcess->UniqueProcessId;
 
     HANDLE hProcess = ProcessAccessHelp::NativeOpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, process.PID);
 

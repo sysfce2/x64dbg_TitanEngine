@@ -126,7 +126,7 @@ long injectedImpRec(LPVOID Parameter)
     HANDLE hFileMap;
     PInjectImpRecCodeData APIData = (PInjectImpRecCodeData)Parameter;
     LPVOID szFileName = (LPVOID)((ULONG_PTR)Parameter + sizeof InjectImpRecCodeData);
-    typedef ULONG_PTR(__cdecl * fTrace)(DWORD hFileMap, DWORD dwSizeMap, DWORD dwTimeOut, DWORD dwToTrace, DWORD dwExactCall);
+    typedef ULONG_PTR(__cdecl * fTrace)(HANDLE hFileMap, DWORD dwSizeMap, DWORD dwTimeOut, DWORD dwToTrace, DWORD dwExactCall);
     typedef HANDLE(WINAPI * fCreateFileW)(LPCWSTR lpFileName, DWORD dwDesiredAccess, DWORD dwShareMode, LPSECURITY_ATTRIBUTES lpSecurityAttributes, DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes, HANDLE hTemplateFile);
     typedef HANDLE(WINAPI * fCreateFileMappingA)(HANDLE hFile, LPSECURITY_ATTRIBUTES lpFileMappingAttributes, DWORD flProtect, DWORD dwMaximumSizeHigh, DWORD dwMaximumSizeLow, LPCSTR lpName);
     typedef BOOL(__cdecl * fCloseHandle)(HANDLE hHandle);
@@ -139,7 +139,7 @@ long injectedImpRec(LPVOID Parameter)
     if(hFile != INVALID_HANDLE_VALUE)
     {
         hFileMap = cCreateFileMappingA(hFile, NULL, 4, NULL, 0x100, NULL);
-        cTrace((DWORD)hFileMap, 0x100, -1, (DWORD)APIData->AddressToTrace, NULL);
+        cTrace(hFileMap, 0x100, -1, (DWORD)APIData->AddressToTrace, NULL);
         cCloseHandle(hFile);
         return(1);
     }

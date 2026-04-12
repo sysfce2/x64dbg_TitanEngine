@@ -30,7 +30,7 @@ void NativeWinApi::initialize()
         return;
     }
 
-    HMODULE hModuleNtdll = GetModuleHandle(L"ntdll.dll");
+    HMODULE hModuleNtdll = GetModuleHandleW(L"ntdll.dll");
 
     if(!hModuleNtdll)
     {

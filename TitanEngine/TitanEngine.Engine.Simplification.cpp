@@ -86,7 +86,7 @@ __declspec(dllexport) bool TITCALL EngineUnpackerSetBreakCondition(void* SearchS
     DWORD fBreakPointType = UE_BREAKPOINT;
     UnpackerInformation fUnpackerInformation = {};
 
-    if((int)SearchStart == UE_UNPACKER_CONDITION_SEARCH_FROM_EP)
+    if(SearchStart == (void*)(DWORD_PTR)UE_UNPACKER_CONDITION_SEARCH_FROM_EP)
     {
         if(EngineUnpackerFileStatus.FileIsDLL)
         {

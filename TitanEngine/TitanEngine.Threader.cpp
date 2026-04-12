@@ -95,7 +95,7 @@ __declspec(dllexport) bool TITCALL ThreaderImportRunningThreadData(DWORD Process
 
     while(TRUE)
     {
-        if(pIter->UniqueProcessId == (HANDLE)dwProcessId)
+        if(pIter->UniqueProcessId == (HANDLE)(DWORD_PTR)dwProcessId)
         {
             pIterThread = &pIter->Threads[0];
             for(ULONG i = 0; i < pIter->NumberOfThreads; i++)
@@ -110,7 +110,7 @@ __declspec(dllexport) bool TITCALL ThreaderImportRunningThreadData(DWORD Process
                 NewThreadData.ThreadState = pIterThread->ThreadState;
                 NewThreadData.WaitReason = pIterThread->WaitReason;
                 NewThreadData.WaitTime = pIterThread->WaitTime;
-                NewThreadData.dwThreadId = (DWORD)pIterThread->ClientId.UniqueThread;
+                NewThreadData.dwThreadId = (DWORD)(DWORD_PTR)pIterThread->ClientId.UniqueThread;
 
                 NewThreadData.hThread = EngineOpenThread(THREAD_ALL_ACCESS, FALSE, NewThreadData.dwThreadId);
                 if(NewThreadData.hThread)

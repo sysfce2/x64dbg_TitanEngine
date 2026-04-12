@@ -20,7 +20,7 @@ bool SystemInformation::getSystemInformation()
         return false;
     }
 
-    _GetNativeSystemInfo = (def_GetNativeSystemInfo)GetProcAddress(GetModuleHandle(L"kernel32.dll"), "GetNativeSystemInfo");
+    _GetNativeSystemInfo = (def_GetNativeSystemInfo)GetProcAddress(GetModuleHandleW(L"kernel32.dll"), "GetNativeSystemInfo");
     if(_GetNativeSystemInfo)
     {
         _GetNativeSystemInfo(&si);

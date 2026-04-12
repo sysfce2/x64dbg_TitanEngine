@@ -164,3 +164,6 @@ coverity*
 
 # Release
 deps/
+
+build*/
+cmake-build*/

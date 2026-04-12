@@ -1176,7 +1176,7 @@ __declspec(dllexport) ULONG_PTR TITCALL TracerFixKnownRedirection(HANDLE hProces
             if(ReadProcessMemory(hProcess, (LPVOID)AddressToTrace, TracerReadMemory, MaximumReadSize, &ueNumberOfBytesRead))
             {
                 RtlMoveMemory(&TestAddressX86, &cMem->DataByte[2], 4);
-                if(ReadProcessMemory(hProcess, (LPVOID)TestAddressX86, &TestAddressX86, 4, &ueNumberOfBytesRead))
+                if(ReadProcessMemory(hProcess, (LPVOID)(DWORD_PTR)TestAddressX86, &TestAddressX86, 4, &ueNumberOfBytesRead))
                 {
                     return((DWORD)TestAddressX86);
                 }
@@ -1201,7 +1201,7 @@ __declspec(dllexport) ULONG_PTR TITCALL TracerFixKnownRedirection(HANDLE hProces
                 {
                     RtlMoveMemory(&TestAddressX86, &cMem->DataByte[3], 4);
                 }
-                if(ReadProcessMemory(hProcess, (LPVOID)TestAddressX86, &TestAddressX86, 4, &ueNumberOfBytesRead))
+                if(ReadProcessMemory(hProcess, (LPVOID)(DWORD_PTR)TestAddressX86, &TestAddressX86, 4, &ueNumberOfBytesRead))
                 {
                     return((DWORD)TestAddressX86);
                 }
@@ -1255,7 +1255,7 @@ __declspec(dllexport) ULONG_PTR TITCALL TracerFixKnownRedirection(HANDLE hProces
                     {
                         RtlMoveMemory(&TestAddressX86, &cMem->DataByte[2], 4);
                     }
-                    if(ReadProcessMemory(hProcess, (LPVOID)TestAddressX86, &TestAddressX86, 4, &ueNumberOfBytesRead))
+                    if(ReadProcessMemory(hProcess, (LPVOID)(DWORD_PTR)TestAddressX86, &TestAddressX86, 4, &ueNumberOfBytesRead))
                     {
                         return((DWORD)TestAddressX86);
                     }
@@ -1264,7 +1264,7 @@ __declspec(dllexport) ULONG_PTR TITCALL TracerFixKnownRedirection(HANDLE hProces
                 {
                     cMem = (PMEMORY_CMP_HANDLER)((ULONG_PTR)cMem - 6);
                     RtlMoveMemory(&TestAddressX86, &cMem->DataByte[2], 4);
-                    if(ReadProcessMemory(hProcess, (LPVOID)TestAddressX86, &TestAddressX86, 4, &ueNumberOfBytesRead))
+                    if(ReadProcessMemory(hProcess, (LPVOID)(DWORD_PTR)TestAddressX86, &TestAddressX86, 4, &ueNumberOfBytesRead))
                     {
                         return((DWORD)TestAddressX86);
                     }
@@ -1294,7 +1294,7 @@ __declspec(dllexport) ULONG_PTR TITCALL TracerFixKnownRedirection(HANDLE hProces
                     RtlMoveMemory(&ReadAddressX86, &cMem->DataByte[0x10], 4);
                     RtlMoveMemory(&TestAddressX86, &cMem->DataByte[0], 4);
                     TestAddressX86 = TestAddressX86 + 0x18;
-                    if(ReadProcessMemory(hProcess, (LPVOID)TestAddressX86, &TestAddressX86, 4, &ueNumberOfBytesRead))
+                    if(ReadProcessMemory(hProcess, (LPVOID)(DWORD_PTR)TestAddressX86, &TestAddressX86, 4, &ueNumberOfBytesRead))
                     {
                         TestAddressX86 = TestAddressX86 ^ ReadAddressX86;
                         return((DWORD)TestAddressX86);
