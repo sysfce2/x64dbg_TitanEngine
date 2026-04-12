@@ -164,3 +164,8 @@ coverity*
 
 # Release
 deps/
+
+# CMake
+build*/
+cmake-build*/
+CMakeUserPresets.json

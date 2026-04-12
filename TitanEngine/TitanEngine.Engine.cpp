@@ -322,7 +322,7 @@ __declspec(dllexport) bool TITCALL EngineCreateUnpackerWindow(char* WindowUnpack
     }
 }
 
-__declspec(dllexport) void TITCALL EngineAddUnpackerWindowLogMessage(char* szLogMessage)
+__declspec(dllexport) void TITCALL EngineAddUnpackerWindowLogMessage(const char* szLogMessage)
 {
     int cSelect;
 

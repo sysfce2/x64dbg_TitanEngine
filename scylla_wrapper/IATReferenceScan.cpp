@@ -425,7 +425,7 @@ void IATReferenceScan::printDirectImportLog()
         ApiInfo* apiInfo = apiReader->getApiByVirtualAddress(ref->targetAddressInIat, &isSuspect);
 
         count++;
-        WCHAR* type = L"U";
+        const WCHAR* type = L"U";
 
         if(ref->type == IAT_REFERENCE_DIRECT_CALL)
         {

@@ -93,16 +93,16 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)distorm\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)distorm\include;$(SolutionDir)scylla_wrapper\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)distorm\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)distorm\include;$(SolutionDir)scylla_wrapper\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)distorm\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)distorm\include;$(SolutionDir)scylla_wrapper\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)distorm\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)distorm\include;$(SolutionDir)scylla_wrapper\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -338,7 +338,6 @@
     <ClInclude Include="LzmaTypes.h" />
     <ClInclude Include="ntdll.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="scylla_wrapper.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>

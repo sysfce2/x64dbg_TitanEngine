@@ -20,11 +20,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //packing set to 1 needed because TitanEngine uses same
 #pragma pack(push, 1)
 
-const BYTE SCY_ERROR_SUCCESS = 0;
-const BYTE SCY_ERROR_PROCOPEN = -1;
-const BYTE SCY_ERROR_IATWRITE = -2;
-const BYTE SCY_ERROR_IATSEARCH = -3;
-const BYTE SCY_ERROR_IATNOTFOUND = -4;
+typedef enum
+{
+    SCY_ERROR_SUCCESS = 0,
+    SCY_ERROR_PROCOPEN = -1,
+    SCY_ERROR_IATWRITE = -2,
+    SCY_ERROR_IATSEARCH = -3,
+    SCY_ERROR_IATNOTFOUND = -4
+} ScyllaErrorCode;;
 
 typedef struct
 {
@@ -35,7 +38,7 @@ typedef struct
     ULONG_PTR ImportThunk;
     char* APIName;
     char* DLLName;
-} ImportEnumData, *PImportEnumData;
+} ScyllaImportEnumData, *PScyllaImportEnumData;
 
 //IAT exports
 int scylla_searchIAT(DWORD pid, DWORD_PTR & iatStart, DWORD & iatSize, DWORD_PTR searchStart, bool advancedSearch);
@@ -44,13 +47,13 @@ bool scylla_addModule(const WCHAR* moduleName, DWORD_PTR firstThunkRVA);
 bool scylla_addImport(const WCHAR* importName, DWORD_PTR thunkVA);
 bool scylla_importsValid();
 bool scylla_cutImport(DWORD_PTR apiAddr);
-int scylla_fixDump(WCHAR* dumpFile, WCHAR* iatFixFile, WCHAR* sectionName = L".scy");
+int scylla_fixDump(const WCHAR* dumpFile, const WCHAR* iatFixFile, const WCHAR* sectionName = L".scy");
 int scylla_fixMappedDump(DWORD_PTR iatVA, DWORD_PTR FileMapVA, HANDLE hFileMap);
 int scylla_getModuleCount();
 int scylla_getImportCount();
 void scylla_enumImportTree(LPVOID enumCallBack);
 long scylla_estimatedIATSize();
-DWORD_PTR scylla_findImportWriteLocation(char* importName);
+DWORD_PTR scylla_findImportWriteLocation(const char* importName);
 DWORD_PTR scylla_findOrdinalImportWriteLocation(DWORD_PTR ordinalNumber);
 DWORD_PTR scylla_findImportNameByWriteLocation(DWORD_PTR thunkVA);
 DWORD_PTR scylla_findModuleNameByWriteLocation(DWORD_PTR thunkVA);

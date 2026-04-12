@@ -448,7 +448,9 @@ __declspec(dllexport) bool TITCALL StaticMemoryDecompress(void* Source, DWORD So
     }
     else if(Algorithm == UE_STATIC_LZMA)
     {
-        if(LzmaDecode((unsigned char*)Destination, (size_t*)DestinationSize, (unsigned char*)Source, (size_t*)SourceSize, (unsigned char*)&lzProps, LZMA_PROPS_SIZE, LZMA_FINISH_ANY, &lzStatus, &lzAlloc) == SZ_OK)
+        size_t destLen = DestinationSize;
+        size_t srcLen = SourceSize;
+        if(LzmaDecode((unsigned char*)Destination, &destLen, (unsigned char*)Source, &srcLen, (unsigned char*)&lzProps, LZMA_PROPS_SIZE, LZMA_FINISH_ANY, &lzStatus, &lzAlloc) == SZ_OK)
         {
             return true;
         }

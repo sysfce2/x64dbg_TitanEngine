@@ -66,7 +66,7 @@ __declspec(dllexport) bool TITCALL ImporterExportIATEx(char* szDumpFileName, cha
     return false;
 }
 
-__declspec(dllexport) bool TITCALL ImporterExportIATExW(wchar_t* szDumpFileName, wchar_t* szExportFileName, wchar_t* szSectionName)
+__declspec(dllexport) bool TITCALL ImporterExportIATExW(wchar_t* szDumpFileName, wchar_t* szExportFileName, const wchar_t* szSectionName)
 {
     return (scylla_fixDump(szDumpFileName, szExportFileName, szSectionName) == SCY_ERROR_SUCCESS);
 }

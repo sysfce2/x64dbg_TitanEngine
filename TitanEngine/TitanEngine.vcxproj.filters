@@ -302,9 +302,6 @@
     <ClInclude Include="LzmaTypes.h">
       <Filter>Header Files\ThirdParty</Filter>
     </ClInclude>
-    <ClInclude Include="scylla_wrapper.h">
-      <Filter>Header Files\ThirdParty</Filter>
-    </ClInclude>
     <ClInclude Include="..\SDK\C\TitanEngine.h">
       <Filter>Header Files\SDK\C</Filter>
     </ClInclude>

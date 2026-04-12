@@ -580,7 +580,7 @@ bool PeParser::openFileHandle()
     {
         if(filename)
         {
-            hFile = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
+            hFile = CreateFileW(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
         }
         else
         {
@@ -595,7 +595,7 @@ bool PeParser::openWriteFileHandle(const WCHAR* newFile)
 {
     if(newFile)
     {
-        hFile = CreateFile(newFile, GENERIC_WRITE, FILE_SHARE_WRITE, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+        hFile = CreateFileW(newFile, GENERIC_WRITE, FILE_SHARE_WRITE, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
     }
     else
     {
@@ -1312,7 +1312,7 @@ bool PeParser::updatePeHeaderChecksum(const WCHAR* targetFile, DWORD fileSize)
     if(!fileSize)
         return retValue;
 
-    HANDLE hFileToMap = CreateFile(targetFile, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    HANDLE hFileToMap = CreateFileW(targetFile, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
     if(hFileToMap != INVALID_HANDLE_VALUE)
     {

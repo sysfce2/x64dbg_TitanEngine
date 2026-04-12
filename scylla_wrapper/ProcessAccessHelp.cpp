@@ -75,7 +75,7 @@ HANDLE ProcessAccessHelp::NativeOpenProcess(DWORD dwDesiredAccess, DWORD dwProce
     NTSTATUS ntStatus = 0;
 
     InitializeObjectAttributes(&ObjectAttributes, 0, 0, 0, 0);
-    cid.UniqueProcess = (HANDLE)dwProcessId;
+    cid.UniqueProcess = (HANDLE)(DWORD_PTR)dwProcessId;
 
     ntStatus = NativeWinApi::NtOpenProcess(&hProcess, dwDesiredAccess, &ObjectAttributes, &cid);
 
@@ -356,7 +356,7 @@ LONGLONG ProcessAccessHelp::getFileSize(const WCHAR* filePath)
 {
     LONGLONG fileSize = 0;
 
-    HANDLE hFile = CreateFile(filePath, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
+    HANDLE hFile = CreateFileW(filePath, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
 
     if(hFile != INVALID_HANDLE_VALUE)
     {
@@ -439,7 +439,7 @@ bool ProcessAccessHelp::readMemoryFromFile(HANDLE hFile, LONG offset, DWORD size
 
 bool ProcessAccessHelp::writeMemoryToNewFile(const WCHAR* file, DWORD size, LPCVOID dataBuffer)
 {
-    HANDLE hFile = CreateFile(file, GENERIC_WRITE, 0, 0, CREATE_ALWAYS, 0, 0);
+    HANDLE hFile = CreateFileW(file, GENERIC_WRITE, 0, 0, CREATE_ALWAYS, 0, 0);
 
     if(hFile != INVALID_HANDLE_VALUE)
     {
@@ -532,7 +532,7 @@ bool ProcessAccessHelp::readHeaderFromFile(BYTE* buffer, DWORD bufferSize, const
     DWORD dwSize = 0;
     bool returnValue = 0;
 
-    HANDLE hFile = CreateFile(filePath, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
+    HANDLE hFile = CreateFileW(filePath, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
 
     if(hFile == INVALID_HANDLE_VALUE)
     {
@@ -577,7 +577,7 @@ LPVOID ProcessAccessHelp::createFileMappingViewFull(const WCHAR* filePath)
 
 LPVOID ProcessAccessHelp::createFileMappingView(const WCHAR* filePath, DWORD accessFile, DWORD flProtect, DWORD accessMap)
 {
-    HANDLE hFile = CreateFile(filePath, accessFile, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
+    HANDLE hFile = CreateFileW(filePath, accessFile, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
 
     if(hFile == INVALID_HANDLE_VALUE)
     {
@@ -811,7 +811,7 @@ bool ProcessAccessHelp::createBackupFile(const WCHAR* filePath)
 
     wcscpy_s(backupFile, fileNameLength, filePath);
     wcscat_s(backupFile, fileNameLength, L".bak");
-    retValue = CopyFile(filePath, backupFile, FALSE);
+    retValue = CopyFileW(filePath, backupFile, FALSE);
 
     if(!retValue)
     {

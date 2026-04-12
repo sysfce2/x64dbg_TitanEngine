@@ -334,7 +334,7 @@ bool scylla_cutImport(DWORD_PTR apiAddr)
     return false;
 }
 
-int scylla_fixDump(WCHAR* dumpFile, WCHAR* iatFixFile, WCHAR* sectionName)
+int scylla_fixDump(const WCHAR* dumpFile, const WCHAR* iatFixFile, const WCHAR* sectionName)
 {
     WCHAR dumpedFilePath[MAX_PATH];
     WCHAR fixedFilePath[MAX_PATH];
@@ -389,7 +389,7 @@ void scylla_enumImportTree(LPVOID enumCallback)
     std::map<DWORD_PTR, ImportThunk>::iterator it_import;
     typedef void(*fCallback)(LPVOID importDetail);
     fCallback myCallback = (fCallback)enumCallback;
-    ImportEnumData myImportEnumData;
+    ScyllaImportEnumData myImportEnumData;
     myImportEnumData.DLLName = (char*)malloc(sizeof(char) * MAX_PATH);
     myImportEnumData.APIName = (char*)malloc(sizeof(char) * MAX_PATH);
 
@@ -438,7 +438,7 @@ long scylla_estimatedIATSize()
     return importRebuild.getIATSectionSize(moduleList);
 }
 
-DWORD_PTR scylla_findImportWriteLocation(char* importName)
+DWORD_PTR scylla_findImportWriteLocation(const char* importName)
 {
     std::map<DWORD_PTR, ImportModuleThunk>::iterator it_module;
     std::map<DWORD_PTR, ImportThunk>::iterator it_import;

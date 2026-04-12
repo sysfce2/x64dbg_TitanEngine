@@ -45,7 +45,7 @@ public:
     ProcessLister()
     {
         deviceNameResolver = new DeviceNameResolver();
-        _IsWow64Process = (def_IsWow64Process)GetProcAddress(GetModuleHandle(L"kernel32.dll"), "IsWow64Process");
+        _IsWow64Process = (def_IsWow64Process)GetProcAddress(GetModuleHandleW(L"kernel32.dll"), "IsWow64Process");
     }
     ~ProcessLister()
     {

@@ -445,7 +445,7 @@ void ApiReader::findApiByModule(ModuleInfo* module, char* searchFunctionName, WO
 {
     if(isModuleLoadedInOwnProcess(module))
     {
-        HMODULE hModule = GetModuleHandle(module->getFilename());
+        HMODULE hModule = GetModuleHandleW(module->getFilename());
 
         if(hModule)
         {
@@ -501,7 +501,7 @@ void ApiReader::parseModuleWithOwnProcess(ModuleInfo* module)
 {
     PIMAGE_NT_HEADERS pNtHeader = 0;
     PIMAGE_DOS_HEADER pDosHeader = 0;
-    HMODULE hModule = GetModuleHandle(module->getFilename());
+    HMODULE hModule = GetModuleHandleW(module->getFilename());
 
     if(hModule)
     {
