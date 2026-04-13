@@ -240,7 +240,10 @@ static bool HollowProcessWithoutASLR(const wchar_t* szFileName, PROCESS_INFORMAT
 
 __declspec(dllexport) void* TITCALL InitDebugW(wchar_t* szFileName, wchar_t* szCommandLine, wchar_t* szCurrentFolder)
 {
-    int creationFlags = CREATE_NEW_CONSOLE | DEBUG_PROCESS | DEBUG_ONLY_THIS_PROCESS;
+    int creationFlags = DEBUG_PROCESS | DEBUG_ONLY_THIS_PROCESS;
+
+    if(engineDisableAslr)
+        creationFlags = CREATE_SUSPENDED;
 
     if(DebugDebuggingDLL)
     {
@@ -251,9 +254,9 @@ __declspec(dllexport) void* TITCALL InitDebugW(wchar_t* szFileName, wchar_t* szC
     {
         creationFlags |= CREATE_NO_WINDOW;
     }
-    else if(engineDisableAslr)
+    else
     {
-        creationFlags = CREATE_NEW_CONSOLE | CREATE_SUSPENDED;
+        creationFlags |= CREATE_NEW_CONSOLE;
     }
 
     wchar_t* szFileNameCreateProcess;
